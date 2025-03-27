@@ -2,8 +2,10 @@ import os
 from tkinter import *
 from tkinter import messagebox
 
+# File where user data will be stored
 FILE_NAME = "users.txt"
 
+# Function to load user data from the file
 def load_data():
     users = []
     if os.path.exists(FILE_NAME):
@@ -20,11 +22,13 @@ def load_data():
                     })
     return users
 
+# Function to save user data to the file
 def save_data(users):
     with open(FILE_NAME, "w") as file:
         for user in users:
             file.write(f"{user['first_name']} | {user['middle_name']} | {user['last_name']} | {user['birthday']} | {user['gender']}\n")
 
+# Function to handle user signup
 def signup():
     try:
         users = load_data()
@@ -41,6 +45,7 @@ def signup():
     except Exception as e:
         messagebox.showerror("Error", str(e))
 
+# Function to display all user records
 def view_records():
     try:
         users = load_data()
@@ -53,6 +58,7 @@ def view_records():
     except Exception as e:
         messagebox.showerror("Error", str(e))
 
+# Function to search for a user by first or last name
 def search_record():
     try:
         users = load_data()
@@ -69,6 +75,7 @@ def search_record():
     except Exception as e:
         messagebox.showerror("Error", str(e))
 
+# Main Tkinter window setup
 root = Tk()
 root.title("User Management System")
 root.geometry("400x400")
@@ -76,6 +83,7 @@ root.geometry("400x400")
 frame = Frame(root)
 frame.pack(padx=10, pady=10, anchor='w')
 
+# Labels and input fields for user details
 Label(frame, text="First Name:").grid(row=0, column=0, sticky='w')
 entry_fname = Entry(frame)
 entry_fname.grid(row=0, column=1)
@@ -92,18 +100,21 @@ Label(frame, text="Birthday (YYYY-MM-DD):").grid(row=3, column=0, sticky='w')
 entry_bday = Entry(frame)
 entry_bday.grid(row=3, column=1)
 
+# Gender selection
 Label(frame, text="Gender:").grid(row=4, column=0, sticky='w')
 gender_var = StringVar(value="Male")
 Radiobutton(frame, text="Male", variable=gender_var, value="Male").grid(row=4, column=1, sticky='w')
 Radiobutton(frame, text="Female", variable=gender_var, value="Female").grid(row=5, column=1, sticky='w')
 Radiobutton(frame, text="Other", variable=gender_var, value="Other").grid(row=6, column=1, sticky='w')
 
+# Buttons for user actions
 Button(frame, text="Sign Up", command=signup).grid(row=7, column=0, columnspan=2, pady=5, sticky='w')
 Button(frame, text="View All Records", command=view_records).grid(row=8, column=0, columnspan=2, pady=5, sticky='w')
 
-Label(frame, text="Search by First/Last Name:").grid(row=12, column=0, pady=10, sticky='w')
+# Search functionality
+Label(frame, text="Search by First/Last Name:").grid(row=10, column=0, sticky='w')
 search_entry = Entry(frame)
-search_entry.grid(row=12, column=1)
-Button(frame, text="Search", command=search_record).grid(row=13, column=0, columnspan=2, pady=5, sticky='w')
+search_entry.grid(row=10, column=1)
+Button(frame, text="Search", command=search_record).grid(row=11, column=0, columnspan=2, pady=5, sticky='w')
 
 root.mainloop()
